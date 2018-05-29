@@ -1,0 +1,22 @@
+Intro:
+https://developers.google.com/places/web-service/intro
+
+Goto:  https://developers.google.com/places/web-service/get-api-key
+and click on the blue button GET A KEY
+
+Google Places API Key:
+AIzaSyDhUDwXlhJF0pzMIg4NoBr5LEifvOXMxbE
+
+Usage API:
+https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&types=food&name=harbour&key=AIzaSyDhUDwXlhJF0pzMIg4NoBr5LEifvOXMxbE
+
+Create folder places.
+npm init
+npm install axios --save
+npm install express --save
+npm install mongodb --save
+
+Create a file: .gitignore and put this line:
+  node_modules
+
+Create new repository in Github called: places
