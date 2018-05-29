@@ -19,4 +19,12 @@ npm install mongodb --save
 Create a file: .gitignore and put this line:
   node_modules
 
-Create new repository in Github called: places
+Create new repository in Github called: places, followed by:
+  git init
+  git add .
+  git commit -m "Initial Commit"
+  git remote add origin https://github.com/paulchin/places.git
+  git push -u origin master
+
+Create file:  app.js and add the lines: const axios... const port
+Create views/partials folders
