@@ -28,3 +28,11 @@ Create new repository in Github called: places, followed by:
 
 Create file:  app.js and add the lines: const axios... const port
 Create views/partials folders
+
+Copy bootstrap jumbostron from w3c bootstrap into home.hbs in views folder.
+Copy navbar from w3c bootstrap into partials/navbar.hbs
+Inject navbar into home.hbs.
+
+Create a form.hbs and update the navbar link to include a Search.
+
+Create a result.hbs and insert the relevant server.post('/getplaces') handler in app.js
