@@ -19,7 +19,9 @@
 
 <div class="row container-fluid text-center">
   <div class="col-md-12">
-    {{address}}
+    <table class="table table-striped">
+      {{#list items}} <tr><td>{{name}}</td><td><img src={{icon}}></td><td>{{photos.[0].photo_reference}}</td></tr> {{/list}}
+    </table>
   </div>
 </div>
 

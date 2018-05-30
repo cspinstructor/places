@@ -10,6 +10,22 @@ server.use(bodyParser.urlencoded({ extended: true}));
 server.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/views/partials');
 
+var allResults;
+
+hbs.registerHelper('list', (items, options) => {
+ items = allResults;
+
+ var out = "<tr><th>Address</th><th>Icon</th><th>Photo Reference</th></tr>";
+
+ const length = items.length;
+
+ for(var i=0; i<length; i++){
+   out = out +  options.fn(items[i]);
+ }
+ console.log(out);
+ return out;
+});
+
 server.get('/', (req, res) => {
   res.render('home.hbs');
 });
@@ -28,7 +44,16 @@ server.post('/getplaces', (req, res) => {
       lat: response.data.results[0].geometry.location.lat,
       lng: response.data.results[0].geometry.location.lng,
     }
-    res.status(200).send(JSON.stringify(locationData));
+    const httpURL = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?';
+    const API_KEY = 'AIzaSyDhUDwXlhJF0pzMIg4NoBr5LEifvOXMxbE';
+    const placesReq = `${httpURL}location=${locationData.lat},${locationData.lng}&radius=1500&type=school&keyword=school&key=${API_KEY}`;
+
+    return axios.get(placesReq);
+    //res.status(200).send(JSON.stringify(locationData));
+  }).then((response) => {
+    //res.status(200).send(response.data.results);
+    allResults = response.data.results;
+    res.render('result.hbs');
   })
   .catch((error) => {
     res.status(200).send('ERRO');
