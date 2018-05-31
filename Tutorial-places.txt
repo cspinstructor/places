@@ -11,9 +11,12 @@ and click on the blue button GET A KEY
 Google Places API Key:
 AIzaSyDhUDwXlhJF0pzMIg4NoBr5LEifvOXMxbE
 
-Usage API:
+Usage Places API:
 https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=restaurant&keyword=cruise&key=AIzaSyDhUDwXlhJF0pzMIg4NoBr5LEifvOXMxbE
 https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&types=food&name=harbour&key=AIzaSyDhUDwXlhJF0pzMIg4NoBr5LEifvOXMxbE
+
+Usage Photo API:
+https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=PHOTO-REFERENCE&key=YOURAPIKEY
 
 Create folder places.
 npm init
@@ -45,3 +48,17 @@ Create a result.hbs and insert the relevant server.post('/getplaces') handler in
 In app.js, first make the call to google-geocode to get the lat,lng, then use that to make
 the call to google-places by chaining the promises together and display the json result:
   res.status(200).send(response.data.results);
+
+Next, modify result.hbs to show a table. Refer to:
+https://stackoverflow.com/questions/35382964/accessing-nested-array-with-handlebars-from-json-and-loop-through/35383293
+on how to access objects within json.  Use {{photos.[0].photo_reference}}
+
+Modify app.js to include hbs helper for the result.hbs
+
+Debugging
+````````
+enter debugger; line in app.js
+in cmd, run:  node --inspect-brk app.js
+open chrome://inspect  and open dedicated dev tools for node
+
+Add new function in app.js to extract the name and photo_reference.

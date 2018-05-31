@@ -22,7 +22,7 @@ hbs.registerHelper('list', (items, options) => {
  for(var i=0; i<length; i++){
    out = out +  options.fn(items[i]);
  }
- console.log(out);
+
  return out;
 });
 
@@ -33,6 +33,8 @@ server.get('/', (req, res) => {
 server.get('/form', (req, res) => {
   res.render('form.hbs');
 });
+
+
 
 server.post('/getplaces', (req, res) => {
   const addr = req.body.address;
@@ -53,16 +55,51 @@ server.post('/getplaces', (req, res) => {
   }).then((response) => {
     //res.status(200).send(response.data.results);
     allResults = response.data.results;
+    //console.log(allResults);
+    extractData(allResults);
     res.render('result.hbs');
   })
   .catch((error) => {
     res.status(200).send('ERRO');
   });
-
-
   //const result = { address: addr };
   //res.render('result.hbs',result);
 });
+
+var placesObj = {
+  table : [],
+};
+
+const extractData = (allResults) => {
+  debugger;
+  //extract name and photo_reference and save to new object
+  const length = allResults.length;
+  console.log('length: ',length);
+  for (var i=0; i<length; i++) {
+
+    var tempObj;
+
+    if (allResults[i].photos) {
+      tempObj = {
+        name: allResults[i].name,
+        photo_reference: allResults[i].photos[0].photo_reference,
+      }
+    } else {
+      tempObj = {
+        name: allResults[i].name,
+        photo_reference: undefined,
+      }
+    }
+
+    placesObj.table.push(tempObj);
+  }
+
+  for (var i=0; i<placesObj.table.length; i++) {
+    console.log(placesObj.table[i].name);
+    console.log(placesObj.table[i].photo_reference);
+  }
+
+};
 
 server.listen(port, () => {
   console.log(`server started on port ${port}`);
