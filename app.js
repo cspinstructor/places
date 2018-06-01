@@ -12,10 +12,10 @@ hbs.registerPartials(__dirname + '/views/partials');
 
 // Google Places API KEY
 const PLACES_API_KEY = 'AIzaSyDhUDwXlhJF0pzMIg4NoBr5LEifvOXMxbE';
-var allResults;
+var filteredResults;
 
 hbs.registerHelper('list', (items, options) => {
- items = allResults;
+ items = filteredResults;
 
  var out = "<tr><th>Name</th><th>Photo Reference</th></tr>";
 
@@ -36,13 +36,34 @@ server.get('/form', (req, res) => {
   res.render('form.hbs');
 });
 
+server.get('/historical', (req, res) => {
+  filemgr.getAllData().then((result) => {
 
+    filteredResults = result;
+    res.render('historical.hbs');
+  }).catch((errorMessage) => {
+    console.log(errorMessage)
+  });
+
+});
+
+server.post('/delete', (req, res) => {
+  console.log('from delete button in historical.hbs, rendering historical.hbs');
+
+  filemgr.deleteAll().then((result) => {
+    filteredResults = result;
+    res.render('historical.hbs');
+  }).catch((errorMessage) => {
+    console.log('error in deleteall');
+  });
+
+});
 
 server.post('/getplaces', (req, res) => {
   const addr = req.body.address;
   const placetype = req.body.placetype;
-  console.log('placetype: ', placetype);
-  
+
+
   const locationReq = `https://maps.googleapis.com/maps/api/geocode/json?address=${addr}&key=AIzaSyAn7h3tsW_p0md5iISNFzLcJDoRGRgjWPg`;
 
   axios.get(locationReq).then((response) => {
@@ -59,9 +80,14 @@ server.post('/getplaces', (req, res) => {
     //res.status(200).send(JSON.stringify(locationData));
   }).then((response) => {
 
-    allResults = extractData(response.data.results);
+    filteredResults = extractData(response.data.results);
 
-    res.render('result.hbs');
+    filemgr.saveData(filteredResults).then((result) => {
+      res.render('result.hbs');
+    }).catch((errorMessage) => {
+      console.log(errorMessage);
+    });
+
   })
   .catch((error) => {
     res.status(200).send('ERRO');
@@ -69,30 +95,27 @@ server.post('/getplaces', (req, res) => {
 
 });
 
-
-
-const extractData = (allResults) => {
+const extractData = (filteredResults) => {
   var placesObj = {
     table : [],
   };
 
   //extract name and photo_reference and save to new object
-  const length = allResults.length;
+  const length = filteredResults.length;
 
   for (var i=0; i<length; i++) {
-
     var tempObj;
 
-    if (allResults[i].photos) {
-      const photoRef = allResults[i].photos[0].photo_reference;
+    if (filteredResults[i].photos) {
+      const photoRef = filteredResults[i].photos[0].photo_reference;
       const requestUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoRef}&key=${PLACES_API_KEY}`;
       tempObj = {
-        name: allResults[i].name,
+        name: filteredResults[i].name,
         photo_reference: requestUrl,
       }
     } else {
       tempObj = {
-        name: allResults[i].name,
+        name: filteredResults[i].name,
         photo_reference: undefined,
       }
     }
@@ -110,20 +133,7 @@ const extractData = (allResults) => {
   //   }
   // }
   return placesObj.table;
-
-
 };
-
-const getPhoto = (photoRef) => {
-  const requestUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoRef}&key=${PLACES_API_KEY}`;
-
-  axios.get(requestUrl).then((response) => {
-    console.log(response);
-  }).catch((error) => {
-    res.status(200).send('Cannot get photo');
-  });
-
-}
 
 server.listen(port, () => {
   console.log(`server started on port ${port}`);
