@@ -17,7 +17,7 @@ var allResults;
 hbs.registerHelper('list', (items, options) => {
  items = allResults;
 
- var out = "<tr><th>Address</th><th>Icon</th><th>Photo Reference</th></tr>";
+ var out = "<tr><th>Name</th><th>Photo Reference</th></tr>";
 
  const length = items.length;
 
