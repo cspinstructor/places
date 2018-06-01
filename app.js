@@ -54,9 +54,9 @@ server.post('/getplaces', (req, res) => {
     //res.status(200).send(JSON.stringify(locationData));
   }).then((response) => {
     //res.status(200).send(response.data.results);
-    allResults = response.data.results;
-    //console.log(allResults);
-    extractData(allResults);
+    //allResults = response.data.results;
+    allResults = extractData(response.data.results);
+    console.log(allResults);
     res.render('result.hbs');
   })
   .catch((error) => {
@@ -66,15 +66,16 @@ server.post('/getplaces', (req, res) => {
   //res.render('result.hbs',result);
 });
 
-var placesObj = {
-  table : [],
-};
+
 
 const extractData = (allResults) => {
-  debugger;
+  var placesObj = {
+    table : [],
+  };
+
   //extract name and photo_reference and save to new object
   const length = allResults.length;
-  console.log('length: ',length);
+
   for (var i=0; i<length; i++) {
 
     var tempObj;
@@ -93,11 +94,14 @@ const extractData = (allResults) => {
 
     placesObj.table.push(tempObj);
   }
-
-  for (var i=0; i<placesObj.table.length; i++) {
-    console.log(placesObj.table[i].name);
-    console.log(placesObj.table[i].photo_reference);
-  }
+  return placesObj.table;
+  //console.log('-----------------------------------------------------------------------');
+  //console.log(placesObj.table);
+  //--- test the content ---------
+  // for (var i=0; i<placesObj.table.length; i++) {
+  //   console.log(placesObj.table[i].name);
+  //   console.log(placesObj.table[i].photo_reference);
+  // }
 
 };
 
