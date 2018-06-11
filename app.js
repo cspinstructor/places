@@ -62,8 +62,8 @@ server.post('/delete', (req, res) => {
 server.post('/getplaces', (req, res) => {
   const addr = req.body.address;
   const placetype = req.body.placetype;
-
-
+  const name = req.body.name;
+  console.log("name: ", name);
   const locationReq = `https://maps.googleapis.com/maps/api/geocode/json?address=${addr}&key=AIzaSyAn7h3tsW_p0md5iISNFzLcJDoRGRgjWPg`;
 
   axios.get(locationReq).then((response) => {
@@ -74,7 +74,7 @@ server.post('/getplaces', (req, res) => {
     }
     const httpURL = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?';
 
-    const placesReq = `${httpURL}location=${locationData.lat},${locationData.lng}&radius=1500&type=${placetype}&keyword=${placetype}&key=${PLACES_API_KEY}`;
+    const placesReq = `${httpURL}location=${locationData.lat},${locationData.lng}&radius=1500&type=${placetype}&keyword=${name}&key=${PLACES_API_KEY}`;
 
     return axios.get(placesReq);
     //res.status(200).send(JSON.stringify(locationData));

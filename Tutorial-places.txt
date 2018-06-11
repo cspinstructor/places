@@ -12,8 +12,7 @@ Google Places API Key:
 AIzaSyDhUDwXlhJF0pzMIg4NoBr5LEifvOXMxbE
 
 Usage Places API:
-https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=restaurant&keyword=cruise&key=AIzaSyDhUDwXlhJF0pzMIg4NoBr5LEifvOXMxbE
-https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&types=food&name=harbour&key=AIzaSyDhUDwXlhJF0pzMIg4NoBr5LEifvOXMxbE
+https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=5.350078,100.307956&radius=1500&type=car_dealer&name=car&key=AIzaSyDhUDwXlhJF0pzMIg4NoBr5LEifvOXMxbE
 
 Usage Photo API:
 https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=PHOTO-REFERENCE&key=YOURAPIKEY
@@ -55,7 +54,7 @@ on how to access objects within json.  Use {{photos.[0].photo_reference}}
 
 Modify app.js to include hbs helper for the result.hbs
 
-Debugging
+Debugging (no need)
 ````````
 enter debugger; line in app.js
 in cmd, run:  node --inspect-brk app.js
