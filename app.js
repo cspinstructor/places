@@ -1,31 +1,29 @@
 const axios = require('axios');
 const express = require('express');
 const hbs = require('hbs');
-const server = express();
 const bodyParser = require('body-parser');
+const server = express();
 const filemgr = require('./filemgr');
+
 const port = process.env.PORT || 3000;
 
-server.use(bodyParser.urlencoded({ extended: true}));
+server.use(bodyParser.urlencoded({extended: true}));
 server.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/views/partials');
 
-// Google Places API KEY
-const PLACES_API_KEY = 'AIzaSyDhUDwXlhJF0pzMIg4NoBr5LEifvOXMxbE';
+const PLACES_API_KEY = 'AIzaSyCsDrx0q_PSYYBIx3xrKT0p0G53ETRG2OQ';
 var filteredResults;
 
 hbs.registerHelper('list', (items, options) => {
- items = filteredResults;
+  items = filteredResults;
+  var out = "<tr><th>Name</th><th>Address</th><th>Photo</th></tr>";
+  const length = items.length;
 
- var out = "<tr><th>Name</th><th>Photo Reference</th></tr>";
+  for(var i=0; i<length; i++) {
+    out = out + options.fn(items[i]);
+  }
 
- const length = items.length;
-
- for(var i=0; i<length; i++){
-   out = out +  options.fn(items[i]);
- }
-
- return out;
+  return out;
 });
 
 server.get('/', (req, res) => {
@@ -36,48 +34,23 @@ server.get('/form', (req, res) => {
   res.render('form.hbs');
 });
 
-server.get('/historical', (req, res) => {
-  filemgr.getAllData().then((result) => {
-
-    filteredResults = result;
-    res.render('historical.hbs');
-  }).catch((errorMessage) => {
-    console.log(errorMessage)
-  });
-
-});
-
-server.post('/delete', (req, res) => {
-  console.log('from delete button in historical.hbs, rendering historical.hbs');
-
-  filemgr.deleteAll().then((result) => {
-    filteredResults = result;
-    res.render('historical.hbs');
-  }).catch((errorMessage) => {
-    console.log('error in deleteall');
-  });
-
-});
-
 server.post('/getplaces', (req, res) => {
   const addr = req.body.address;
   const placetype = req.body.placetype;
   const name = req.body.name;
-  console.log("name: ", name);
+
   const locationReq = `https://maps.googleapis.com/maps/api/geocode/json?address=${addr}&key=AIzaSyAn7h3tsW_p0md5iISNFzLcJDoRGRgjWPg`;
 
   axios.get(locationReq).then((response) => {
     const locationData = {
       addr: response.data.results[0].formatted_address,
-      lat: response.data.results[0].geometry.location.lat,
-      lng: response.data.results[0].geometry.location.lng,
+      lat:  response.data.results[0].geometry.location.lat,
+      lng:  response.data.results[0].geometry.location.lng,
     }
-    const httpURL = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?';
 
-    const placesReq = `${httpURL}location=${locationData.lat},${locationData.lng}&radius=1500&type=${placetype}&keyword=${name}&key=${PLACES_API_KEY}`;
+    const placesReq = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${locationData.lat},${locationData.lng}&radius=1500&types=${placetype}&name=${name}&key=${PLACES_API_KEY}`;
 
     return axios.get(placesReq);
-    //res.status(200).send(JSON.stringify(locationData));
   }).then((response) => {
 
     filteredResults = extractData(response.data.results);
@@ -87,54 +60,51 @@ server.post('/getplaces', (req, res) => {
     }).catch((errorMessage) => {
       console.log(errorMessage);
     });
-
-  })
-  .catch((error) => {
-    res.status(200).send('ERRO');
+  }).catch((error) => {
+    console.log(error);
   });
 
 });
 
-const extractData = (filteredResults) => {
+server.get('/historical', (req, res) => {
+  filemgr.getAllData().then((result) => {
+    filteredResults = result;
+    res.render('historical.hbs');
+  });
+});
+
+const extractData = (originalResults) => {
   var placesObj = {
     table : [],
   };
 
-  //extract name and photo_reference and save to new object
-  const length = filteredResults.length;
+  const length = originalResults.length;
 
   for (var i=0; i<length; i++) {
-    var tempObj;
-
-    if (filteredResults[i].photos) {
-      const photoRef = filteredResults[i].photos[0].photo_reference;
+    if(originalResults[i].photos){
+      const photoRef = originalResults[i].photos[0].photo_reference;
       const requestUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoRef}&key=${PLACES_API_KEY}`;
+
       tempObj = {
-        name: filteredResults[i].name,
+        name: originalResults[i].name,
+        address: originalResults[i].vicinity,
         photo_reference: requestUrl,
       }
     } else {
       tempObj = {
-        name: filteredResults[i].name,
-        photo_reference: undefined,
+        name: originalResults[i].name,
+        address: originalResults[i].vicinity,
+        photo_reference: 'http://www.51allout.co.uk/wp-content/uploads/2012/02/Image-not-found.gif',
       }
     }
 
-    placesObj.table.push(tempObj);
 
+    placesObj.table.push(tempObj);
   }
 
-  //--- test the content ---------
-  // for (var i=0; i<placesObj.table.length; i++) {
-  //   if (placesObj.table[i].photo_reference) {
-  //     console.log(placesObj.table[i].name);
-  //     console.log(placesObj.table[i].photo_reference);
-  //     getPhoto(placesObj.table[i].photo_reference);
-  //   }
-  // }
   return placesObj.table;
 };
 
 server.listen(port, () => {
-  console.log(`server started on port ${port}`);
+  console.log(`Server started on port ${port}`);
 });

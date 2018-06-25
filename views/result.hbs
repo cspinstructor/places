@@ -14,15 +14,13 @@
 
 <div class="jumbotron text-center">
   <h1>Result</h1>
-  <p>Show the result of PLaces API call</p>
+  <p>Show the result of Places API call</p>
 </div>
 
-<div class="row container-fluid text-center">
-  <div class="col-md-12">
-    <table class="table table-striped">
-      {{#list items}} <tr><td>{{name}}</td><td><img src={{photo_reference}}></td></tr> {{/list}}
-    </table>
-  </div>
+<div class="row container-fluid">
+  <table class="table table-striped">
+     {{#list items}}<tr><td>{{name}}</td><td>{{address}}</td><td><img src={{photo_reference}} width="200" height="200"></td></tr>{{/list}}
+  </table>
 </div>
 
 </body>
