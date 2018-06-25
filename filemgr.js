@@ -3,10 +3,10 @@ const {MongoClient} = require('mongodb');
 const fs = MongoClient
 
 //--  for development:
-const database = 'mongodb://localhost:27017';
+//const database = 'mongodb://localhost:27017';
 //-- for deployment:
 //const database = 'mongodb://inti2018:inti2018@ds259255.mlab.com:59255/weatherapp'
-
+const database = 'mongodb://paulc:abc123@ds117701.mlab.com:17701/placesapp';
 var obj = {
   table : [],
 };
