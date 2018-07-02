@@ -6,7 +6,7 @@ const server = express();
 const path = require('path');
 const filemgr = require('./filemgr');
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 server.use(bodyParser.urlencoded({extended: true}));
 server.set('view engine', 'hbs');
@@ -41,6 +41,9 @@ server.post('/getplaces', (req, res) => {
   const addr = req.body.address;
   const placetype = req.body.placetype;
   const name = req.body.name;
+  console.log('addr: ', addr);
+  console.log('placetype: ', placetype);
+  console.log('name: ', name);
 
   const locationReq = `https://maps.googleapis.com/maps/api/geocode/json?address=${addr}&key=AIzaSyAn7h3tsW_p0md5iISNFzLcJDoRGRgjWPg`;
 
@@ -59,7 +62,8 @@ server.post('/getplaces', (req, res) => {
     filteredResults = extractData(response.data.results);
 
     filemgr.saveData(filteredResults).then((result) => {
-      res.render('result.hbs');
+      //res.render('result.hbs');
+      res.status(200).send(filteredResults);
     }).catch((errorMessage) => {
       console.log(errorMessage);
     });

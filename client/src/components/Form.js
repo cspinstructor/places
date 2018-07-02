@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import axios from 'axios';
 
 class Form extends Component {
   constructor() {
@@ -26,6 +26,12 @@ class Form extends Component {
       name: this.state.name,
       placetype: this.state.placetype
     }
+    console.log(newQuery);
+    axios.post('/getplaces', newQuery).then((result) => {
+      console.log(result.data);
+    }).catch((error) => {
+      console.log(error.response.data);
+    })
   }
 
   render() {
@@ -38,33 +44,33 @@ class Form extends Component {
 
       <div className="row container text-center">
         <div className="col-sm-12">
-          <form onSubmit={this.onSubmit}>
+          <form noValidate onSubmit={this.onSubmit}>
             <div className="form-group">
-              <label for="addr">Enter address:</label>
+              <label htmlFor="addr">Enter address:</label>
               <input id="addr"
                 name="addr"
-                class="form-control"
+                className="form-control"
                 type="text"
                 placeholder="Enter address..."
                 value={this.state.addr}
                 onChange={this.onChange}
               />
               <p></p>
-              <label for="name">Enter name:</label>
+              <label htmlFor="name">Enter name:</label>
               <input id="name"
                 name="name"
-                class="form-control"
+                className="form-control"
                 type="text"
                 placeholder="Enter name..."
                 value={this.state.name}
                 onChange={this.onChange}
               />
               <p></p>
-              <label for="placetype">Select type of place:</label>
+              <label htmlFor="placetype">Select type of place:</label>
               <p></p>
                 <select id="placetype"
                   name="placetype"
-                  class="form-control"
+                  className="form-control"
                   value={this.state.placetype}
                   onChange={this.onChange}
                 >
@@ -161,7 +167,7 @@ class Form extends Component {
                 <option value="zoo">zoo</option>
                 </select>
               <p></p>
-              <input type="submit" value="Send" formaction="/getplaces"/>
+              <input type="submit" value="Send"/>
             </div>
           </form>
         </div>
