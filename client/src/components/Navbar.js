@@ -8,12 +8,20 @@ class Navbar extends Component {
         <nav className="navbar navbar-default navbar-fixed-top">
           <div className="container-fluid">
             <div className="navbar-header">
-              <a className="navbar-brand" href="#">Places</a>
+              <a className="navbar-brand" href="#">
+                Places
+              </a>
             </div>
             <ul className="nav navbar-nav">
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="form">Form</Link></li>
-
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="form">Form</Link>
+              </li>
+              <li>
+                <Link to="historical">Historical</Link>
+              </li>
             </ul>
           </div>
         </nav>

@@ -41,9 +41,6 @@ server.post('/getplaces', (req, res) => {
   const addr = req.body.address;
   const placetype = req.body.placetype;
   const name = req.body.name;
-  console.log('addr: ', addr);
-  console.log('placetype: ', placetype);
-  console.log('name: ', name);
 
   const locationReq = `https://maps.googleapis.com/maps/api/geocode/json?address=${addr}&key=AIzaSyAn7h3tsW_p0md5iISNFzLcJDoRGRgjWPg`;
 
@@ -74,7 +71,7 @@ server.post('/getplaces', (req, res) => {
           res.status(200).send(filteredResults);
         })
         .catch(errorMessage => {
-          console.log(errorMessage);
+          console.log('---->', errorMessage);
         });
     })
     .catch(error => {
@@ -85,7 +82,8 @@ server.post('/getplaces', (req, res) => {
 server.get('/historical', (req, res) => {
   filemgr.getAllData().then(result => {
     filteredResults = result;
-    res.render('historical.hbs');
+    //res.render('historical.hbs');
+    res.status(200).send(filteredResults);
   });
 });
 
