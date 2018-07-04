@@ -51,9 +51,9 @@ class Form extends Component {
           <p>For searching for places of interest</p>
         </div>
 
-        <div className="row container text-center">
-          <div className="col-sm-12">
-            <form noValidate onSubmit={this.onSubmit}>
+        <div className="container fluid">
+          <div className="col-sm-8 col-sm-offset-2">
+            <form onSubmit={this.onSubmit}>
               <div className="form-group">
                 <label htmlFor="addr">Enter address:</label>
                 <input
