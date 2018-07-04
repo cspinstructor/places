@@ -3,7 +3,7 @@ const Result = props => {
   //console.log(props.list.length);
 
   return (
-    <div row container-fluid>
+    <div className="row container-fluid">
       <table className="table table-striped">
         <tbody>
           <tr>
@@ -11,7 +11,7 @@ const Result = props => {
           </tr>
           {props.list.map(result => {
             return (
-              <tr>
+              <tr key={result.name}>
                 <td>{result.name}</td>
               </tr>
             );
