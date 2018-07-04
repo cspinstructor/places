@@ -11,6 +11,20 @@ class Historical extends Component {
       errors: {},
       result: []
     };
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    this.setState({ result: [] });
+    axios
+      .post('/delete')
+      .then(result => {
+        console.log('All docs deleted');
+      })
+      .catch(error => {
+        console.log('Failed to delete all: ', error);
+      });
   }
 
   componentWillMount() {
@@ -32,6 +46,15 @@ class Historical extends Component {
           <p>Previous search results</p>
         </div>
         <div className="row container-fluid">
+          <div className="col-md-4 text-center">
+            <button
+              className="btn btn-primary btn-lg"
+              onClick={this.handleClick}
+            >
+              Delete All
+            </button>
+            <p />
+          </div>
           <table className="table table-striped">
             <tbody>
               <tr>

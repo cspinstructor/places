@@ -32,7 +32,6 @@ const getAllData = () => {
               resolve(docs);
             },
             err => {
-              console.log('-----here not ok----');
               reject('Unable to fetch data', err);
             }
           );
