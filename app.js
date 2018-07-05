@@ -5,10 +5,24 @@ const bodyParser = require('body-parser');
 const server = express();
 const path = require('path');
 const filemgr = require('./filemgr');
+const mongoose = require('mongoose');
+const Model = require('./Model');
+const db = 'mongodb://localhost:27017';
 
 const port = process.env.PORT || 5000;
 
-server.use(bodyParser.urlencoded({ extended: true }));
+mongoose
+  .connect(db)
+  .then(() => {
+    console.log('mongoose connected to mongodb');
+  })
+  .catch(error => {
+    console.log('mongoose connection error: ', error);
+  });
+
+server.use(bodyParser.urlencoded({ extended: true })); //traversy false
+server.use(bodyParser.json());
+
 server.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/views/partials');
 
@@ -130,6 +144,30 @@ const extractData = originalResults => {
 
   return placesObj.table;
 };
+
+//--- experimental ---
+server.post('/findone', (req, res) => {
+  Model.findOne({ name: req.body.name }).then(result => {
+    if (result) {
+      return res.status(200).json({ name: result.name });
+    } else {
+      const newData = new Model({
+        name: req.body.name,
+        address: req.body.address,
+        photo_reference: req.body.photo_reference
+      });
+
+      newData
+        .save()
+        .then(result => {
+          return res.json(result);
+        })
+        .catch(error => {
+          console.log('mongoose error saving new data: ', error);
+        });
+    }
+  });
+});
 
 server.listen(port, () => {
   console.log(`Server started on port ${port}`);

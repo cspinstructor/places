@@ -1,4 +1,3 @@
-//--- original version that did not have reactjs client ---
 const axios = require('axios');
 const express = require('express');
 const hbs = require('hbs');
@@ -7,7 +6,7 @@ const server = express();
 const path = require('path');
 const filemgr = require('./filemgr');
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 server.use(bodyParser.urlencoded({ extended: true }));
 server.set('view engine', 'hbs');
@@ -68,10 +67,11 @@ server.post('/getplaces', (req, res) => {
       filemgr
         .saveData(filteredResults)
         .then(result => {
-          res.render('result.hbs');
+          //res.render('result.hbs');
+          res.status(200).send(filteredResults);
         })
         .catch(errorMessage => {
-          console.log(errorMessage);
+          console.log('---->', errorMessage);
         });
     })
     .catch(error => {
@@ -82,7 +82,8 @@ server.post('/getplaces', (req, res) => {
 server.get('/historical', (req, res) => {
   filemgr.getAllData().then(result => {
     filteredResults = result;
-    res.render('historical.hbs');
+    //res.render('historical.hbs');
+    res.status(200).send(filteredResults);
   });
 });
 
