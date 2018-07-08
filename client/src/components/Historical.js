@@ -27,7 +27,7 @@ class Historical extends Component {
       });
   }
 
-  componentWillMount() {
+  componentDidMount() {
     axios
       .get('/historical')
       .then(result => {
