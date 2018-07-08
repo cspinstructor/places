@@ -93,7 +93,7 @@ const saveData = dataArray => {
 server.get('/historical', (req, res) => {
   Place.find({})
     .then(result => {
-      res.status(200).json(result);
+      res.status(200).send(result);
     })
     .catch(error => {
       res.status(400).json(error);
