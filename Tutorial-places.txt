@@ -82,3 +82,4 @@ heroku git:remote -a hidden-plateau-97200
 heroku git:clone -a hidden-plateau-97200s
 
 git push heroku master
+git push -f heroku  [ overwriting remote ]
