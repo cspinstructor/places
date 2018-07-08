@@ -61,3 +61,9 @@ in cmd, run:  node --inspect-brk app.js
 open chrome://inspect  and open dedicated dev tools for node
 
 Add new function in app.js to extract the name and photo_reference.
+
+------------- REACTJS --------------
+Installed mongoose for server, tried postman then found with robo3t that it created placesapp inside Admin collections. Watched Setting Up Mongoose udemy for Node.js course stopped there.
+
+:npm install mongoose --save
+
