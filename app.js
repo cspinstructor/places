@@ -31,13 +31,18 @@ var filteredResults;
 
 server.use(express.static(path.join(__dirname, 'public')));
 
-server.get('/', (req, res) => {
-  res.render('home.hbs');
-});
+if (process.env.NODE_ENV === 'production') {
+  server.use(express.static('client/build'));
+  res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+}
 
-server.get('/form', (req, res) => {
-  res.render('form.hbs');
-});
+// server.get('/', (req, res) => {
+//   res.render('home.hbs');
+// });
+
+// server.get('/form', (req, res) => {
+//   res.render('form.hbs');
+// });
 
 server.post('/getplaces', (req, res) => {
   const addr = req.body.address;

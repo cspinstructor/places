@@ -67,3 +67,18 @@ Installed mongoose for server, tried postman then found with robo3t that it crea
 
 :npm install mongoose --save
 
+
+--- Deployment ---
+cd client
+npm run build
+
+heroku:
+https://hidden-plateau-97200.herokuapp.com/
+
+heroku login
+
+optional:
+heroku git:remote -a hidden-plateau-97200
+heroku git:clone -a hidden-plateau-97200s
+
+git push heroku master
