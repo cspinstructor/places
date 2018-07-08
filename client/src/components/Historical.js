@@ -9,7 +9,13 @@ class Historical extends Component {
       name: '',
       placetype: '',
       errors: {},
-      result: []
+      result: [
+        {
+          address: '',
+          name: '',
+          photo_reference: ''
+        }
+      ]
     };
 
     this.handleClick = this.handleClick.bind(this);
