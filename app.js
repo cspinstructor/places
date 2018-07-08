@@ -74,10 +74,10 @@ server.post('/getplaces', (req, res) => {
       filteredResults = extractData(response.data.results);
       Place.insertMany(filteredResults)
         .then(result => {
-          res.status(200).send(result);
+          res.status(200).json(result);
         })
         .catch(error => {
-          res.status(400).send;
+          res.status(400).json(error);
         });
     })
     .catch(error => {
@@ -93,20 +93,20 @@ const saveData = dataArray => {
 server.get('/historical', (req, res) => {
   Place.find({})
     .then(result => {
-      res.status(200).send(result);
+      res.status(200).json(result);
     })
     .catch(error => {
-      res.status(400).send(error);
+      res.status(400).json(error);
     });
 });
 
 server.post('/delete', (req, res) => {
   Place.remove({})
     .then(result => {
-      res.status(200).send(result);
+      res.status(200).json(result);
     })
     .catch(error => {
-      res.status(400).send(error);
+      res.status(400).json(error);
     });
 });
 
