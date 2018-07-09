@@ -39,19 +39,10 @@ class Historical extends Component {
       .get('/historical')
       .then(result => {
         this.setState({ result: result.data });
-        console.log(this.state.result);
       })
       .catch(error => {
-        if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          console.log(error.request);
-        } else {
-          //console.log(error.config);
-          console.log('axios error--->:', error);
-        }
+        this.setState({ errors: error.response.data });
+        console.log('Historical error ==>:', error);
       });
 
     // fetch('/historical')
@@ -66,7 +57,6 @@ class Historical extends Component {
   }
 
   render() {
-    const { errors } = this.state;
     return (
       <div>
         <div className="jumbotron text-center">
