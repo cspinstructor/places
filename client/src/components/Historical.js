@@ -51,7 +51,7 @@ class Historical extends Component {
           console.log(error.request);
         } else {
           //console.log(error.config);
-          console.log(error);
+          console.log('axios error--->:', error);
         }
       });
 
