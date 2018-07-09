@@ -41,7 +41,6 @@ class Historical extends Component {
         this.setState({ result: result.data });
       })
       .catch(error => {
-        this.setState({ errors: error.response.data });
         console.log('Historical error ==>:', error);
       });
 
