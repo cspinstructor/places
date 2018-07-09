@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const server = express();
 const path = require('path');
-
+const cors = require('cors');
 const Place = require('./Place');
 
 const port = process.env.PORT || 5000;
@@ -23,6 +23,7 @@ const port = process.env.PORT || 5000;
 //     console.log('newPlace.save error: ', error);
 //   });
 
+server.use(cors());
 server.use(bodyParser.urlencoded({ extended: true })); //traversy false
 server.use(bodyParser.json());
 
