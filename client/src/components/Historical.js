@@ -43,7 +43,6 @@ class Historical extends Component {
         }
       })
       .catch(error => {
-        this.setState({ errors: error.response.data });
         console.log('Error get historical: ', error);
       });
 
