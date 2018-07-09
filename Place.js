@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 //const db = 'mongodb://localhost:27017/placesapp';
-const db = 'mongodb://paulc:abc123@ds117701.mlab.com:17701/placesapp';
+//const db = 'mongodb://paulc:abc123@ds117701.mlab.com:17701/placesapp';
+const db = 'mongodb://paulc:abc123@ds129801.mlab.com:29801/placesdb';
 //mongoose.Promise = global.Promise;
 
 mongoose
@@ -26,6 +27,6 @@ const placeSchema = new mongoose.Schema({
 
 // if no specify collectioname, it will create places collection
 // ie lowercase Place and pluralize it
-const Place = mongoose.model('Place', placeSchema, 'placesappcollection');
+const Place = mongoose.model('Place', placeSchema, 'placescollection');
 
 module.exports = Place;

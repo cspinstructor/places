@@ -76,12 +76,7 @@ class Historical extends Component {
             </button>
             <p />
           </div>
-          <table
-            className={classnames('table table-striped', {
-              'is-invalid': errors.name
-            })}
-          >
-            {errors && <div className="invalid-feedback">{errors.name}</div>}
+          <table className="table table-striped">
             <tbody>
               <tr>
                 <th>Name</th>
