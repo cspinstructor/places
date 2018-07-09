@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import classnames from 'classnames';
 
 class Historical extends Component {
   constructor() {
@@ -50,8 +49,7 @@ class Historical extends Component {
     //   })
     //   .then(json => {
     //     // json is an array of objects [{},..]
-    //     //console.log('just checking:', json[0].show.name);
-    //     this.setState({ result: json });
+    //     //console.log('just checking:',hero});
     //   });
   }
 
