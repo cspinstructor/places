@@ -38,10 +38,8 @@ class Historical extends Component {
     axios
       .get('/historical')
       .then(result => {
-        if (result.data.length) {
-          this.setState({ result: result.data });
-          console.log(this.state.result);
-        }
+        this.setState({ result: result.data });
+        console.log(this.state.result);
       })
       .catch(error => {
         if (error.response) {
