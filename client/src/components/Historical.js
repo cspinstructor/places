@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import classnames from 'classnames';
 
 class Historical extends Component {
   constructor() {
@@ -33,7 +34,7 @@ class Historical extends Component {
       });
   }
 
-  componentWillMount() {
+  componentDidMount() {
     axios
       .get('/historical')
       .then(result => {
@@ -42,6 +43,7 @@ class Historical extends Component {
         }
       })
       .catch(error => {
+        this.setState({ errors: error.response.data });
         console.log('Error get historical: ', error);
       });
 
@@ -57,6 +59,7 @@ class Historical extends Component {
   }
 
   render() {
+    const { errors } = this.state;
     return (
       <div>
         <div className="jumbotron text-center">
@@ -73,7 +76,12 @@ class Historical extends Component {
             </button>
             <p />
           </div>
-          <table className="table table-striped">
+          <table
+            className={classnames('table table-striped', {
+              'is-invalid': errors.name
+            })}
+          >
+            {errors && <div className="invalid-feedback">{errors.name}</div>}
             <tbody>
               <tr>
                 <th>Name</th>
