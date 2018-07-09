@@ -44,7 +44,7 @@ class Historical extends Component {
     //   });
 
     axios
-      .get('/historical')
+      .post('/historical')
       .then(result => {
         //console.log(result.data);
         this.setState({ result: result.data });

@@ -100,7 +100,7 @@ const saveData = dataArray => {
   for (var i = 0; i < length; i++) {}
 };
 
-server.get('/historical', (req, res) => {
+server.post('/historical', (req, res) => {
   Place.find({})
     .then(result => {
       res.status(200).send(result);
