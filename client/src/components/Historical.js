@@ -50,7 +50,8 @@ class Historical extends Component {
         } else if (error.request) {
           console.log(error.request);
         } else {
-          console.log(error.config);
+          //console.log(error.config);
+          console.log(error);
         }
       });
 
