@@ -34,34 +34,14 @@ class Historical extends Component {
   }
 
   componentDidMount() {
-    // axios
-    //   .get('/historical')
-    //   .then(result => {
-    //     this.setState({ result: result.data });
-    //   })
-    //   .catch(error => {
-    //     console.log('Historical error ==>:', error);
-    //   });
-
     axios
       .post('/historical')
       .then(result => {
-        //console.log(result.data);
         this.setState({ result: result.data });
       })
       .catch(error => {
-        console.log('new error+++++ >:', error);
-        //his.setState({ errors: err.response.data });
+        console.log('error+++++ >:', error);
       });
-
-    // fetch('/historical')
-    //   .then(response => {
-    //     return response.json();
-    //   })
-    //   .then(json => {
-    //     // json is an array of objects [{},..]
-    //     //console.log('just checking:',hero});
-    //   });
   }
 
   render() {

@@ -34,7 +34,6 @@ class Form extends Component {
     axios
       .post('/getplaces', qs.stringify(newQuery))
       .then(result => {
-        //console.log(result.data);
         this.setState({ result: result.data });
       })
       .catch(err => {
