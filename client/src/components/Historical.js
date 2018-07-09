@@ -43,7 +43,15 @@ class Historical extends Component {
         }
       })
       .catch(error => {
-        console.log('Error get historical: ', error);
+        if (error.response) {
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log(error.config);
+        }
       });
 
     // fetch('/historical')
