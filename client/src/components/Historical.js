@@ -40,6 +40,7 @@ class Historical extends Component {
       .then(result => {
         if (result.data.length) {
           this.setState({ result: result.data });
+          console.log(this.state.result);
         }
       })
       .catch(error => {
